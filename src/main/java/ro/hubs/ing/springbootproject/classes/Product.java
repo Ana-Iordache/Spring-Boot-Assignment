@@ -1,5 +1,7 @@
 package ro.hubs.ing.springbootproject.classes;
 
+import ro.hubs.ing.springbootproject.exceptions.NegativePriceException;
+
 public class Product {
     private int id;
     private String name;
@@ -7,13 +9,15 @@ public class Product {
     private int quantity;
 
     public Product() {
+        this.name = "Unknown product";
+        this.quantity = 0;
     }
 
     public Product(int id, String name, double price, int quantity) {
         this.id = id;
         this.name = name;
         this.price = price;
-        this.quantity = quantity;
+        this.quantity = Math.max(quantity, 0);
     }
 
     public int getId() {
@@ -45,10 +49,13 @@ public class Product {
     }
 
     public void setQuantity(int quantity) {
-        this.quantity = quantity;
+        this.quantity = Math.max(quantity, 0);
     }
 
-    public double calculateTotalValue() {
+    public double calculateTotalValue() throws NegativePriceException {
+        if (price < 0) {
+            throw new NegativePriceException();
+        }
         return price * quantity;
     }
 

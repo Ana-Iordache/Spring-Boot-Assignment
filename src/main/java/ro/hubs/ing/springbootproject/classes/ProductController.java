@@ -21,6 +21,11 @@ public class ProductController {
         return "Hi admin!";
     }
 
+    @GetMapping("/products/{id}")
+    public Product getProduct(@PathVariable int id) {
+        return productService.getProduct(id);
+    }
+
     @GetMapping("/products")
     public List<Product> getAllProducts() {
         return productService.getAllProducts();
